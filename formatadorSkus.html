@@ -11,9 +11,10 @@
   </style>
 </head>
 <body>
-  <h2>Formatador de SKUs (quebra de linha e correção)</h2>
+  <h1>Vector</h1>
+  <h2>Formatador de SKUs</h2>
   <p>Cole os SKUs aqui (de qualquer forma, separados por espaço, vírgula, barra etc):</p>
-  <textarea id="entrada" rows="10" placeholder="Ex: 57011/57041,2545 70755..."></textarea>
+  <textarea id="entrada" rows="10" placeholder="Ex: 57011/57041,2545-70755..."></textarea>
   
   <button onclick="formatarSKUs()">Formatar</button>
   
@@ -24,10 +25,10 @@
     function formatarSKUs() {
       const entrada = document.getElementById("entrada").value;
       const skusCorrigidos = entrada
-        .split(/[\s,./\\|;-]+/)        // separa por qualquer símbolo
+        .split(/[\s,./\\|;-]+/)       
         .filter(sku => sku.trim() !== "")
         .map(sku => sku.padStart(5, "0"))
-        .join("\n");                   // cada SKU em uma nova linha
+        .join("\n");                   
 
       document.getElementById("saida").value = skusCorrigidos;
     }
