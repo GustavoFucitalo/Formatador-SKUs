@@ -25,7 +25,7 @@
     function formatarSKUs() {
       const entrada = document.getElementById("entrada").value;
       const skusCorrigidos = entrada
-        .split(/[\s,./\\|;-]+/)       
+        .split(/[\s",./\\|;-]+/)       
         .filter(sku => sku.trim() !== "")
         .map(sku => sku.padStart(5, "0"))
         .join("\n");                   
