@@ -26,7 +26,7 @@
       const entrada = document.getElementById("entrada").value;
       const skusCorrigidos = entrada
         .split(/[\s",./\\|;-]+/)       
-        .filter(sku => sku.trim() !== "")
+        .filter(sku => sku.trim() !== "" && sku.length > 3)
         .map(sku => sku.padStart(5, "0"))
         .join("\n");                   
 
