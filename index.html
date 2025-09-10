@@ -1,37 +1,65 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <title>Formatador de SKUs com quebra de linha</title>
-  <style>
-    body { font-family: Arial, sans-serif; padding: 30px; background-color: #f4f4f4; }
-    textarea { width: 100%; padding: 10px; font-size: 16px; margin: 10px 0; }
-    button { padding: 10px; font-size: 16px; width: 100%; background: #007bff; color: white; border: none; cursor: pointer; }
-    button:hover { background: #0056b3; }
-  </style>
-</head>
-<body>
-  <h1>Vector</h1>
-  <h2>Formatador de SKUs</h2>
-  <p>Cole os SKUs aqui (de qualquer forma, separados por espaço, vírgula, barra etc):</p>
-  <textarea id="entrada" rows="10" placeholder="Ex: 57011/57041,2545-70755..."></textarea>
-  
-  <button onclick="formatarSKUs()">Formatar</button>
-  
-  <p>Resultado (pronto para colar no site):</p>
-  <textarea id="saida" rows="15" readonly></textarea>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Formatador de SKUs com quebra de linha</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 30px;
+        background-color: #f4f4f4;
+      }
+      textarea {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        margin: 10px 0;
+      }
+      button {
+        padding: 10px;
+        font-size: 16px;
+        width: 100%;
+        background: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Vector</h1>
+    <h2>Formatador de SKUs</h2>
+    <p>
+      Cole os SKUs aqui (de qualquer forma, separados por espaço, vírgula, barra
+      etc):
+    </p>
+    <textarea
+      id="entrada"
+      rows="10"
+      placeholder="Ex: 57011/57041,2545-70755..."
+    ></textarea>
 
-  <script>
-    function formatarSKUs() {
-      const entrada = document.getElementById("entrada").value;
-      const skusCorrigidos = entrada
-        .split(/[\s",./\\|;-]+/)       
-        .filter(sku => sku.trim() !== "" && sku.length > 3)
-        .map(sku => sku.padStart(5, "0"))
-        .join("\n");                   
+    <button onclick="formatarSKUs()">Formatar</button>
 
-      document.getElementById("saida").value = skusCorrigidos;
-    }
-  </script>
-</body>
+    <p>Resultado (pronto para colar no site):</p>
+    <textarea id="saida" rows="15" readonly></textarea>
+
+    <script>
+      function formatarSKUs() {
+        const entrada = document.getElementById("entrada").value;
+        const skusCorrigidos = entrada
+          .split(/[\s",./\\|;-]+/)
+          .map((sku) => sku.replace(/\D/g, ""))
+          .filter((sku) => sku.trim() !== "" && sku.length > 3)
+          .flatMap((sku) => sku.match(/\d{1,5}/g) || [])
+          .map((sku) => sku.padStart(5, "0"))
+          .join("\n");
+
+        document.getElementById("saida").value = skusCorrigidos;
+      }
+    </script>
+  </body>
 </html>
